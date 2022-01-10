@@ -14,9 +14,11 @@ def main(args) -> int:
     if args.config:
         return int(config.update_config(*args.config))
     elif args.status:
-        lfm = Lastfm()
-        t = TrackFactory(args.status)
-        lfm.scrobble(args.status)
+        with open("/home/joseph/cmus_out.txt", "w") as f:
+            if t := TrackFactory(args.status):
+                lfm = Lastfm()
+                result = lfm.scrobble(t)
+                #f.write(f"Result: {result}")
     else:
         print("Couldn't figure out what the user was trying to do, try cmus-scrobbler --help!");
         return 1

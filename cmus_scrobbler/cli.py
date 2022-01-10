@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """Console script for cmus_scrobbler."""
 import cmus_scrobbler
 import argparse
