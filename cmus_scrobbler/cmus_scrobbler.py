@@ -2,6 +2,7 @@
 
 import os
 import config
+from lastfm import Lastfm, TrackFactory
 
 def main(args) -> int:
     """
@@ -13,7 +14,9 @@ def main(args) -> int:
     if args.config:
         return int(config.update_config(*args.config))
     elif args.status:
-        pass
+        lfm = Lastfm()
+        t = TrackFactory(args.status)
+        lfm.scrobble(args.status)
     else:
         print("Couldn't figure out what the user was trying to do, try cmus-scrobbler --help!");
         return 1

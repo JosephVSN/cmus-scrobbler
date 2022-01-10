@@ -2,6 +2,7 @@
 
 import os
 import json
+import lastfm
 
 CONFIG_DIR = os.path.join(os.path.expanduser("~"), ".config", "cmus-scrobbler")
 CONFIG_JSON = os.path.join(CONFIG_DIR, "cmus_scrobbler_config.json")
@@ -36,7 +37,7 @@ def read_config() -> dict:
 
     return cfg_json
 
-def update_config(api_key: str, secret_key: str) -> bool:
+def update_config(api_key: str = None, secret_key: str = None, session_key: str = None, api_token: str = None) -> bool:
     """Updates the values in the API config file"""
 
     if not os.path.exists(CONFIG_JSON):
@@ -47,13 +48,19 @@ def update_config(api_key: str, secret_key: str) -> bool:
     if not (cfg_json := read_config()):
         return False
     
-    cfg_json["api_key"] = api_key
-    cfg_json["secret_key"] = secret_key
+    if api_key:
+        cfg_json["api_key"] = api_key
+    if secret_key:
+        cfg_json["secret_key"] = secret_key
+    if session_key:
+        cfg_json["session_key"] = session_key
+    if api_token:
+        cfg_json["api_token"] = api_token
     
     try:
         with open(CONFIG_JSON, 'w') as cfg:
             json.dump(cfg_json, cfg)
     except PermissionError as e:
         print(f"DEBUG: Refusing to update config, encountered '{e}'")
-
+        return False
     return True

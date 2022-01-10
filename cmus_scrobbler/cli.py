@@ -3,7 +3,6 @@ import cmus_scrobbler
 import argparse
 import sys
 
-
 def main():
     """Console script for cmus_scrobbler."""
     parser = argparse.ArgumentParser()
